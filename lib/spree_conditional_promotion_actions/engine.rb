@@ -16,6 +16,10 @@ module SpreeConditionalPromotionActions
       end
     end
 
+    initializer "spree.register.promotion_action" do |app|
+      app.config.spree.promotions.actions << Spree::Promotion::Actions::ConditionalAddLineItems
+    end
+
     config.to_prepare &method(:activate).to_proc
   end
 end

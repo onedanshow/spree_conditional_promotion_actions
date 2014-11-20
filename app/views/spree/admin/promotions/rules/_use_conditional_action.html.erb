@@ -1,9 +1,14 @@
 <div class="field alpha omega eight columns">
-  This action will eligible if the promotion has at least one conditional action. The conditional action will do its own further eligibility checking.
+  This rule makes sure the order has at least one conditional action. 
+  <br />
+  <br />
+  The conditional action will do its own further eligibility checking.
+  <br />
   <br />
   The following conditional actions are currently available...
   <ul>
     <% Spree::Promotion::Actions::ConditionalPromotionAction.subclasses.each do |cpa| %>
       <li><%= Spree.t("promotion_action_types.#{cpa.name.demodulize.underscore}.name") %></li>
     <% end %>
+  </ul>
 </div>

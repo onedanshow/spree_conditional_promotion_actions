@@ -48,7 +48,13 @@ module Spree
         private
           def matches_a_promo_line_item?(order_line_item)
             promotion_action_match_line_items.any? { |promotion_action_match_line_item|
-              order_line_item.variant == promotion_action_match_line_item.variant &&
+              # if variants are the same
+              (order_line_item.variant == promotion_action_match_line_item.variant ||
+                # or promo variant is a master that order variant is part of
+                (promotion_action_match_line_item.variant.is_master? &&
+                  order_line_item.variant.product == promotion_action_match_line_item.variant.product)
+                ) &&
+              # and quantity constrant is met
               order_line_item.quantity >= promotion_action_match_line_item.quantity
             }
           end

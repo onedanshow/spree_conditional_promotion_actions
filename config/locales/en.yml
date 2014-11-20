@@ -2,4 +2,33 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  spree:
+    promotion_rule_types:
+      product_quantity:
+        name: "Product Quantity"
+        description: "Apply to orders with a quantity of a given product"
+      use_conditional_action:
+        name: "Use conditional action"
+        description: "Action will check eligibility"
+    promotion_action_types:
+      add_or_remove_line_items:
+        name: "Conditional: Include a promotional line item, if the order has a given product quantity."
+        description: "Conditional: Add or remove a promotional line item, depending on product quantity."
+      add_or_remove_line_item_adjustments:
+        name: "Conditional: Include a promotional line item adjustment, if the order has a given product quantity."
+        description: "Conditional: Add or remove a promotional line item adjustment, depending on product quantity."
+      conditional_free_shipping:
+        name: "Conditional: Free shipping, if the order has a given product quantity."
+        description: "Conditional: Add or remove free shipping, depending on product quantity."
+      add_or_remove_line_items_when_superhd_and_clk_are_present:
+        name: "Conditional: Add or Remove Line Items when SuperHD and CLK are Present"
+        description: "Conditional: Adds a promotional item to the cart if the order contains SuperHD or CLK."
+      conditional_add_line_item_if_cart_has_c4:
+        name: "Conditional: Add a line item if the cart has C4 Extreme (30 or 60)"
+        description: "Conditional: Adds a promotional item to the cart if the order contains C4 Extreme (30 or 60)."
+      conditional_add_line_item_if_cart_has_superhd:
+        name: "Conditional: Add a line item if the cart has Super HD (60, 120 or any Powder)"
+        description: "Conditional: Adds a promotional item to the cart if the order contains Super HD (60, 120 or any Powder)."
+      conditional_add_line_items:
+        name: "Conditional: If the cart has given line items, add promotional line items."
+        description: "Conditional: If the cart has given line items, add promotional line items."
