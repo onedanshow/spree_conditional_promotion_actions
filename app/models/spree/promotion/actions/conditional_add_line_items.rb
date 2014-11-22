@@ -74,7 +74,7 @@ module Spree
                                     variant: variant,
                                     immutable: true,
                                     explanation: preferred_explanation,
-                                    price: variant.price
+                                    price: 0.0 #variant.price
                                   )
               new_line_item.save
             end
