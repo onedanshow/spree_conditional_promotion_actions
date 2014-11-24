@@ -21,6 +21,7 @@ module SpreeConditionalPromotionActions
       app.config.spree.promotions.rules << Spree::Promotion::Rules::UseConditionalAction
       # actions
       app.config.spree.promotions.actions << Spree::Promotion::Actions::ConditionalAddLineItems
+      app.config.spree.promotions.actions << Spree::Promotion::Actions::ConditionalFreeShipping
     end
 
     config.to_prepare &method(:activate).to_proc
