@@ -7,11 +7,13 @@ module Spree
         preference :match_policy, :string, default: MATCH_POLICIES.first
         preference :explanation, :string, default: "Promotional item"
 
-        has_many :promotion_action_line_items, -> { where type: nil }, foreign_key: :promotion_action_id
-        accepts_nested_attributes_for :promotion_action_line_items, allow_destroy: true
-
+        # DD: items to match to receive promotion
         has_many :promotion_action_match_line_items, foreign_key: :promotion_action_id
         accepts_nested_attributes_for :promotion_action_match_line_items, allow_destroy: true
+
+        # DD: items to add to order
+        has_many :promotion_action_line_items, -> { where type: nil }, foreign_key: :promotion_action_id
+        accepts_nested_attributes_for :promotion_action_line_items, allow_destroy: true        
 
         # Hat tip: Brian Buchalter http://blog.endpoint.com/2013/08/buy-one-get-one-promotion-with-spree.html
 
@@ -19,11 +21,11 @@ module Spree
           return unless order = options[:order]
 
           if preferred_match_policy == 'all'
-            eligible_variants.all? {|p| order.products.include?(p) }
+            match_variants.all? {|p| order.variants.include?(p) }
           elsif preferred_match_policy == 'any'
-            order.line_items.any? {|li| matches_a_promo_line_item?(li)}
+            order.line_items.reload.any? {|li| matches_a_promo_line_item?(li)}
           else
-            order.products.none? {|p| eligible_variants.include?(p) }
+            order.variants.none? {|p| match_variants.include?(p) }
           end
         end
 
@@ -49,11 +51,12 @@ module Spree
           def matches_a_promo_line_item?(order_line_item)
             promotion_action_match_line_items.any? { |promotion_action_match_line_item|
               # if variants are the same
-              (order_line_item.variant == promotion_action_match_line_item.variant ||
+              #(order_line_item.variant == promotion_action_match_line_item.variant ||
                 # or promo variant is a master that order variant is part of
-                (promotion_action_match_line_item.variant.is_master? &&
-                  order_line_item.variant.product == promotion_action_match_line_item.variant.product)
-                ) &&
+              #  (promotion_action_match_line_item.variant.is_master? &&
+              #    order_line_item.variant.product == promotion_action_match_line_item.variant.product)
+              #  ) &&
+              variant_is_promo_variant?(order_line_item.variant,promotion_action_match_line_item.variant) &&
               # and quantity constrant is met
               order_line_item.quantity >= promotion_action_match_line_item.quantity &&
               # and price of promo variant is not less than order variant
@@ -61,8 +64,12 @@ module Spree
             }
           end
 
-          def eligible_variants
-            promotion_action_match_line_items
+          def match_variants
+            @match_variants ||= promotion_action_match_line_items.map(&:variant).compact
+          end
+
+          def promo_variants
+            @promo_variants ||= promotion_action_line_items.map(&:variant).compact
           end
 
           def create_line_item(promotion_action_line_item, order)
@@ -93,7 +100,15 @@ module Spree
           end
 
           def is_a_promotional_line_item?(line_item)
-            line_item.variant == promotion_action_line_items.first.variant
+            line_item.immutable && 
+              promo_variants.any? { |promo_variant|
+                variant_is_promo_variant? line_item.variant, promo_variant
+              }
+          end
+
+          def variant_is_promo_variant?(v,promo_v)
+            # if variants are the same or promo variant is a master that order variant is part of
+            v == promo_v || (promo_v.is_master? && v.product_id == promo_v.product_id)
           end
 
           def product
