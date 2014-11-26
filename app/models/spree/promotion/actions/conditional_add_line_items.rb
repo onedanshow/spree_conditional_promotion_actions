@@ -50,12 +50,9 @@ module Spree
         private
           def matches_a_promo_line_item?(order_line_item)
             promotion_action_match_line_items.any? { |promotion_action_match_line_item|
-              # if variants are the same
-              #(order_line_item.variant == promotion_action_match_line_item.variant ||
-                # or promo variant is a master that order variant is part of
-              #  (promotion_action_match_line_item.variant.is_master? &&
-              #    order_line_item.variant.product == promotion_action_match_line_item.variant.product)
-              #  ) &&
+              # if order line item is NOT a promo item itself
+              !order_line_item.immutable &&
+              # and if variants are the same
               variant_is_promo_variant?(order_line_item.variant,promotion_action_match_line_item.variant) &&
               # and quantity constrant is met
               order_line_item.quantity >= promotion_action_match_line_item.quantity &&
@@ -90,6 +87,7 @@ module Spree
           end
 
           def remove_promotional_line_items(order)
+            # DD: replace with order.line_items.where(immutable:true).destroy_all ?
             order.line_items.each do |li|
               li.destroy if is_a_promotional_line_item?(li)
             end
