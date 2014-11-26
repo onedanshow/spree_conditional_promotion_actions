@@ -52,7 +52,9 @@ module Spree
             promotion_action_match_line_items.any? { |promotion_action_match_line_item|
               # if order line item is NOT a promo item itself
               !order_line_item.immutable &&
-              # and if variants are the same
+              # TEMPORARY HACK: order variant is not less than $10
+              order_line_item.variant.price > 10 &&
+              # and if order variant is a promo variant
               variant_is_promo_variant?(order_line_item.variant,promotion_action_match_line_item.variant) &&
               # and quantity constrant is met
               order_line_item.quantity >= promotion_action_match_line_item.quantity &&
