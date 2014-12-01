@@ -91,7 +91,10 @@ module Spree
           def remove_promotional_line_items(order)
             # DD: replace with order.line_items.where(immutable:true).destroy_all ?
             order.line_items.each do |li|
-              li.destroy if is_a_promotional_line_item?(li)
+              if is_a_promotional_line_item?(li)
+                li.inventory_units.destroy_all # HACK: should be handled by Spree::OrderInventory
+                li.destroy
+              end
             end
           end
 
