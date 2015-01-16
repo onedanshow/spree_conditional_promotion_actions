@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.version     = '0.0.1'
   s.summary     = 'A parent class and examples for Spree promotion actions that activate different methods when eligible and ineligible. A typical use case would be to add a promotional item to the cart if an order is eligible and remove it again if the order changes to become ineligible.'
   s.description = 'A parent class and examples for Spree promotion actions that activate different methods when eligible and ineligible. A typical use case would be to add a promotional item to the cart if an order is eligible and remove it again if the order changes to become ineligible.'
-  s.required_ruby_version = '>= 1.9.3'
+  s.required_ruby_version = '>= 2.0.0'
 
   s.author    = 'Isaac Freeman'
   s.email     = 'isaac@resolvedigital.co.nz'
@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.requirements << 'none'
 
 
-  s.add_dependency 'spree_core', '~> 2.3.4'
+  s.add_dependency 'spree_core', '~> 2.3'
 
   s.add_development_dependency 'capybara', '~> 2.4'
   s.add_development_dependency 'coffee-rails'
