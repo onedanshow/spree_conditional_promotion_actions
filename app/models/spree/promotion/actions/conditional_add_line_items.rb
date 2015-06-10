@@ -59,7 +59,7 @@ module Spree
               # and quantity constrant is met
               order_line_item.quantity >= promotion_action_match_line_item.quantity &&
               # and price of promo variant is not less than order variant
-              promotion_action_line_items.all? {|li| order_line_item.variant.price > li.variant.price }
+              promotion_action_line_items.all? {|li| order_line_item.variant.price >= li.variant.price }
             }
           end
 
