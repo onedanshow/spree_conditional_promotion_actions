@@ -1,101 +1,103 @@
-<div class="row">
-  <div class="field alpha omega eight columns">
-    If the customer's order has line item(s)...
-  </div>
-</div>
-
-<% promotion_action.promotion_action_match_line_items.each do |item| %>
+<div class="panel-body">
   <div class="row">
-    <div class="field alpha four columns">
-      <% if item.variant %>
-        <strong><%= item.variant.product.name %></strong>
-        <%= item.variant.options_text %>
-      <% else %>
-        Unknown variant
-      <% end %>
-    </div>
-    <div class="field omega four columns">
-      <strong><%= item.quantity %> x</strong>
+    <div class="field alpha omega eight columns">
+      If the customer's order has line item(s)...
     </div>
   </div>
-<% end %>
 
-<div class="add-line-item">
+  <% promotion_action.promotion_action_match_line_items.each do |item| %>
+    <div class="row">
+      <div class="field alpha four columns">
+        <% if item.variant %>
+          <strong><%= item.variant.product.name %></strong>
+          <%= item.variant.options_text %>
+        <% else %>
+          Unknown variant
+        <% end %>
+      </div>
+      <div class="field omega four columns">
+        <strong><%= item.quantity %> x</strong>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="add-line-item">
+    <div class="row">
+      <div class="field alpha four columns">
+        <%= label_tag "#{param_prefix}_variant_ids_string", Spree.t('conditional_add_line_items_action.choose_variant') %>
+        <% line_item_prefix = "#{param_prefix}[promotion_action_match_line_items_attributes][0]" %>
+        <%= hidden_field_tag "#{line_item_prefix}[variant_id]", nil, :class => "variant_autocomplete fullwidth" %>
+        <div class='options_placeholder'></div>
+      </div>
+      <div class="field omega four columns">
+        <%= label_tag "#{param_prefix}_quantity_string", Spree.t('conditional_add_line_items_action.quantity') %>
+        <%= number_field_tag "#{line_item_prefix}[quantity]", 1, :min => 1, :class => 'fullwidth' %>
+      </div>
+    </div>
+  </div>
+
   <div class="row">
-    <div class="field alpha four columns">
-      <%= label_tag "#{param_prefix}_variant_ids_string", Spree.t('conditional_add_line_items_action.choose_variant') %>
-      <% line_item_prefix = "#{param_prefix}[promotion_action_match_line_items_attributes][0]" %>
-      <%= hidden_field_tag "#{line_item_prefix}[variant_id]", nil, :class => "variant_autocomplete fullwidth" %>
-      <div class='options_placeholder'></div>
-    </div>
-    <div class="field omega four columns">
-      <%= label_tag "#{param_prefix}_quantity_string", Spree.t('conditional_add_line_items_action.quantity') %>
-      <%= number_field_tag "#{line_item_prefix}[quantity]", 1, :min => 1, :class => 'fullwidth' %>
+    <div class="field alpha omega eight columns">
+      Then add promotional line item(s)...
     </div>
   </div>
-</div>
 
-<div class="row">
-  <div class="field alpha omega eight columns">
-    Then add promotional line item(s)...
+  <% promotion_action.promotion_action_line_items.each do |item| %>
+    <div class="row">
+      <div class="field alpha four columns">
+        <% if item.variant %>
+          <strong><%= item.variant.product.name %></strong>
+          <%= item.variant.options_text %>
+        <% else %>
+          Unknown variant
+        <% end %>
+      </div>
+      <div class="field omega four columns">
+        <strong><%= item.quantity %> x</strong>
+        <% line_item_prefix = "#{param_prefix}[promotion_action_line_items_attributes][#{item.id}]" %>
+        <%= check_box_tag "#{line_item_prefix}[_destroy]" %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="add-line-item">
+    <div class="row">
+      <div class="field alpha four columns">
+        <%= label_tag "#{param_prefix}_variant_ids_string", Spree.t('conditional_add_line_items_action.choose_variant') %>
+        <% line_item_prefix = "#{param_prefix}[promotion_action_line_items_attributes][0]" %>
+        <%= hidden_field_tag "#{line_item_prefix}[variant_id]", nil, :class => "variant_autocomplete fullwidth" %>
+        <div class='options_placeholder'></div>
+      </div>
+      <div class="field omega four columns">
+        <%= label_tag "#{param_prefix}_quantity_string", Spree.t('conditional_add_line_items_action.quantity') %>
+        <%= number_field_tag "#{line_item_prefix}[quantity]", 1, :min => 1, :class => 'fullwidth' %>
+      </div>
+    </div>
   </div>
-</div>
 
-<% promotion_action.promotion_action_line_items.each do |item| %>
   <div class="row">
-    <div class="field alpha four columns">
-      <% if item.variant %>
-        <strong><%= item.variant.product.name %></strong>
-        <%= item.variant.options_text %>
-      <% else %>
-        Unknown variant
-      <% end %>
-    </div>
-    <div class="field omega four columns">
-      <strong><%= item.quantity %> x</strong>
-      <% line_item_prefix = "#{param_prefix}[promotion_action_line_items_attributes][#{item.id}]" %>
-      <%= check_box_tag "#{line_item_prefix}[_destroy]" %>
+    <div class="field alpha omega eight columns">
+      With explanation...
     </div>
   </div>
-<% end %>
 
-<div class="add-line-item">
   <div class="row">
-    <div class="field alpha four columns">
-      <%= label_tag "#{param_prefix}_variant_ids_string", Spree.t('conditional_add_line_items_action.choose_variant') %>
-      <% line_item_prefix = "#{param_prefix}[promotion_action_line_items_attributes][0]" %>
-      <%= hidden_field_tag "#{line_item_prefix}[variant_id]", nil, :class => "variant_autocomplete fullwidth" %>
-      <div class='options_placeholder'></div>
-    </div>
     <div class="field omega four columns">
-      <%= label_tag "#{param_prefix}_quantity_string", Spree.t('conditional_add_line_items_action.quantity') %>
-      <%= number_field_tag "#{line_item_prefix}[quantity]", 1, :min => 1, :class => 'fullwidth' %>
+      <%= label_tag "#{param_prefix}_explanation_string", Spree.t('conditional_add_line_items_action.explanation') %>
+      <%= text_field_tag "#{param_prefix}[preferred_explanation]", promotion_action.preferred_explanation, :class => 'fullwidth' %>
     </div>
   </div>
-</div>
-
-<div class="row">
-  <div class="field alpha omega eight columns">
-    With explanation...
-  </div>
-</div>
-
-<div class="row">
-  <div class="field omega four columns">
-    <%= label_tag "#{param_prefix}_explanation_string", Spree.t('conditional_add_line_items_action.explanation') %>
-    <%= text_field_tag "#{param_prefix}[preferred_explanation]", promotion_action.preferred_explanation, :class => 'fullwidth' %>
-  </div>
-</div>
 
 
-<div class="row">
-  <div class="field alpha omega eight columns">
-    The promotional line item's price is set to $0.
-    <br/>
-    <br/>
-    The order's line item must be more than the promotional line item's normal price. For example, a $7.99 variant of the order line item will not add a promotional line item that is normally $9.99. However, a $39.99 variant will.
-    <br/>
-    <br/>
-    If the customer changes the order and is no longer eligible, the promotional line item is removed.
+  <div class="row">
+    <div class="field alpha omega eight columns">
+      The promotional line item's price is set to $0.
+      <br/>
+      <br/>
+      The order's line item must be more than the promotional line item's normal price. For example, a $7.99 variant of the order line item will not add a promotional line item that is normally $9.99. However, a $39.99 variant will.
+      <br/>
+      <br/>
+      If the customer changes the order and is no longer eligible, the promotional line item is removed.
+    </div>
   </div>
 </div>
