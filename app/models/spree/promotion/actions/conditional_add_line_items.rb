@@ -57,9 +57,9 @@ module Spree
               # and if order variant is a promo variant
               variant_is_promo_variant?(order_line_item.variant,promotion_action_match_line_item.variant) &&
               # and quantity constrant is met
-              order_line_item.quantity >= promotion_action_match_line_item.quantity &&
+              order_line_item.quantity >= promotion_action_match_line_item.quantity #&&
               # and price of promo variant is not less than order variant
-              promotion_action_line_items.all? {|li| order_line_item.variant.price >= li.variant.price }
+              #promotion_action_line_items.all? {|li| order_line_item.variant.price >= li.variant.price }
             }
           end
 
