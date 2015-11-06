@@ -2,3 +2,45 @@
 Placeholder manifest file.
 the installer will append this file to the app vendored assets here: 'vendor/assets/stylesheets/spree/backend/all.css'
 */
+
+div.conditional_add_line_items{
+  margin-top:15px
+}
+
+.panel-body div.title {
+  margin-bottom: 10px;
+}
+
+div.line-items {
+  margin-bottom: 10px;
+}
+
+.form-group.choose-variant {
+  margin-bottom: 30px;
+}
+
+.form-group.choose-variant .select2-container {
+  width: 100%;
+}
+
+.choose-variant .select2 {
+  margin: 10px 10px 0px 0px;
+}
+
+.choose-variant .quantity label{
+  margin-right: 5px;
+}
+
+.choose-variant .quantity{
+  margin-top: 5px;
+}
+
+.choose-variant .quantity input{
+  border-radius: 2px;
+  border: 1px solid #e0e0e0;
+}
+
+.choose-variant .quantity input {
+  width: 50px;
+  padding: 6px;
+}

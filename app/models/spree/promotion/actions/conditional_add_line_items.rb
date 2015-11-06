@@ -9,11 +9,11 @@ module Spree
 
         # DD: items to match to receive promotion
         has_many :promotion_action_match_line_items, foreign_key: :promotion_action_id
-        accepts_nested_attributes_for :promotion_action_match_line_items, allow_destroy: true
+        accepts_nested_attributes_for :promotion_action_match_line_items, allow_destroy: true, reject_if: :reject_action_line_item
 
         # DD: items to add to order
         has_many :promotion_action_line_items, -> { where type: nil }, foreign_key: :promotion_action_id
-        accepts_nested_attributes_for :promotion_action_line_items, allow_destroy: true        
+        accepts_nested_attributes_for :promotion_action_line_items, allow_destroy: true, reject_if: :reject_action_line_item
 
         # Hat tip: Brian Buchalter http://blog.endpoint.com/2013/08/buy-one-get-one-promotion-with-spree.html
 
@@ -31,7 +31,6 @@ module Spree
 
         def perform_eligible_action(options={})
           return unless order = options[:order]
-
           promotion_action_line_items.each do |promotion_action_line_item|
             existing_line_item = find_existing_line_item(promotion_action_line_item, order)
             if existing_line_item
@@ -48,6 +47,11 @@ module Spree
         end
 
         private
+
+          def reject_action_line_item(attributed)
+            attributed[:variant_id].blank?
+          end
+
           def matches_a_promo_line_item?(order_line_item)
             promotion_action_match_line_items.any? { |promotion_action_match_line_item|
               # if order line item is NOT a promo item itself
@@ -103,7 +107,7 @@ module Spree
           end
 
           def is_a_promotional_line_item?(line_item)
-            line_item.immutable && 
+            line_item.immutable &&
               promo_variants.any? { |promo_variant|
                 variant_is_promo_variant? line_item.variant, promo_variant
               }
