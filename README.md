@@ -1,7 +1,7 @@
 SpreeConditionalPromotionActions
 ================================
 
-Introduction goes here.
+A plugin to add conditional promotions (ex: BOGO, percentage off specific line items) in Spree.
 
 Installation
 ------------
