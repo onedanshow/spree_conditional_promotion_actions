@@ -20,8 +20,14 @@ module SpreeConditionalPromotionActions
       # rules
       app.config.spree.promotions.rules << Spree::Promotion::Rules::UseConditionalAction
       # actions
+      app.config.spree.promotions.actions << Spree::Promotion::Actions::ConditionalAddLineItemAdjustments
       app.config.spree.promotions.actions << Spree::Promotion::Actions::ConditionalAddLineItems
       app.config.spree.promotions.actions << Spree::Promotion::Actions::ConditionalFreeShipping
+      # calculators
+      app.config.spree.calculators.add_class('promotion_actions_conditional_add_line_item_adjustments')
+      app.config.spree.calculators.promotion_actions_conditional_add_line_item_adjustments = [
+        Spree::Calculator::PercentOnLineItem
+      ]
     end
 
     config.to_prepare &method(:activate).to_proc

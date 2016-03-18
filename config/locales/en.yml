@@ -32,3 +32,6 @@ en:
       conditional_add_line_items:
         name: "Conditional: If the cart has given line items, add promotional line items."
         description: "Conditional: If the cart has given line items, add promotional line items."
+      conditional_add_line_item_adjustments:
+        name: "Conditional: If the cart has given line items, create line item adjustments."
+        description: "Conditional: If the cart has given line items, create line item adjustments."  

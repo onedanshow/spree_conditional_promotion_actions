@@ -12,6 +12,7 @@ FactoryGirl.define do
   # Note that we wouldn't instantiate ConditionalPromotionAction in normal use.
   # This is just to test that it can raise errors to say "Don't instantiate me."
   factory :conditional_promotion_action, class: Spree::Promotion::Actions::ConditionalPromotionAction
+  factory :conditional_add_line_item_adjustments, class: Spree::Promotion::Actions::ConditionalAddLineItemAdjustments
   factory :conditional_add_line_items, class: Spree::Promotion::Actions::ConditionalAddLineItems
   factory :conditional_free_shipping, class: Spree::Promotion::Actions::ConditionalFreeShipping do
     promotion
