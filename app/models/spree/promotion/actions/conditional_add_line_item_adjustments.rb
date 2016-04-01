@@ -36,7 +36,7 @@ module Spree
         def perform_ineligible_action(options={})
           return unless order = options[:order]
           result = false
-          order.line_items.find(already_adjusted_line_item_ids) do |line_item|
+          order.line_items.where("id NOT IN (?)", already_adjusted_line_item_ids).find_each do |line_item|
             current_result = self.remove_adjustment(line_item)
             result ||= current_result
           end
